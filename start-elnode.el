@@ -33,7 +33,8 @@
       (sxml-to-xml `(html
                      (body
                       (h1 "Hello from EEEMACS.")
-                      (br) "We have been visited " ,(prin1-to-string count) " times"))))))
+                      (br) "We have been visited " ,(prin1-to-string count) " times"
+                      (br) "Click " (a (@ (href "/messages")) "here") " for the log."))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
