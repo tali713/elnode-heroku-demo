@@ -28,7 +28,7 @@
                      '("Content-type" . "text/html")
                      `("Server" . ,(concat "GNU Emacs " emacs-version)))
   (elnode-http-return httpcon
-    (sxml-to-xml '(html nil (body nil (h1 nil "Hello from EEEMACS."))))))
+    (esxml-to-xml '(html nil (body nil (h1 nil "Hello from EEEMACS."))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
