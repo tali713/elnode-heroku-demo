@@ -1,0 +1,3 @@
+[submodule "esxml"]
+	path = esxml
+	url = https://github.com/tali713/esxml.git
