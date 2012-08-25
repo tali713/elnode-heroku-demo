@@ -22,13 +22,18 @@
 (package-install 'elnode)
 (message "elnode installed")
 
-(defun handler (httpcon)
-  "Demonstration function"
-  (elnode-http-start httpcon "200"
-                     '("Content-type" . "text/html")
-                     `("Server" . ,(concat "GNU Emacs " emacs-version)))
-  (elnode-http-return httpcon
-    (esxml-to-xml '(html nil (body nil (h1 nil "Hello from EEEMACS."))))))
+(let ((count 1))
+  (defun handler (httpcon)
+    "Demonstration function"
+    (setq count (1+ count))
+    (elnode-http-start httpcon "200"
+                       '("Content-type" . "text/html")
+                       `("Server" . ,(concat "GNU Emacs " emacs-version)))
+    (elnode-http-return httpcon
+      (sxml-to-xml `(html
+                     (body
+                      (h1 "Hello from EEEMACS.")
+                      (br) "We have been visited " ,(prin1-to-string count) " times"))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
