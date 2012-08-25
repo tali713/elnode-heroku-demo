@@ -21,29 +21,13 @@
 (package-install 'elnode)
 (message "elnode installed")
 
-(setq base-dir default-directory)
-(load-file (concat base-dir "esxml/esxml.el"))
 (defun handler (httpcon)
   "Demonstration function"
   (elnode-http-start httpcon "200"
                      '("Content-type" . "text/html")
                      `("Server" . ,(concat "GNU Emacs " emacs-version)))
   (elnode-http-return httpcon
-    (esxml-demo httpcon)))
-
-(let ((count 0))
-  (defun sxml-demo (httpcon)
-    (incf count)
-    (case (intern (elnode-http-pathinfo httpcon))            
-      (/messages (with-current-buffer "*Messages*" (sxml-to-xml `(html (body (pre ,(buffer-string)))))))
-      
-      (t (sxml-to-xml
-          `(html
-            (body
-             (h1 "Hello from Emacs!") (br)
-             "Trying to visit " ,(format "%s" (elnode-http-pathinfo httpcon)) (br)
-             "Visit " (a (@ (href "/messages")) "messages") " to see the *Messages* buffer." (br)
-             "Have been visited " ,(format "%s" count) " times since last started.")))))))
+                      "<html><body><h1>Hello from EEEMACS.</h1></body></html>"))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
