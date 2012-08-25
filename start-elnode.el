@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 (require 'htmlfontify)
+(load "~/esxml/esxml.el")
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")))
@@ -27,7 +28,7 @@
                      '("Content-type" . "text/html")
                      `("Server" . ,(concat "GNU Emacs " emacs-version)))
   (elnode-http-return httpcon
-                      "<html><body><h1>Hello from EEEMACS.</h1></body></html>"))
+    (sxml-to-xml '(html nil (body nil (h1 nil "Hello from EEEMACS."))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
