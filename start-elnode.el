@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t -*-
 (require 'htmlfontify)
-(load "~/esxml/esxml.el")
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")))
@@ -21,10 +20,14 @@
 
 (package-install 'elnode)
 (message "elnode installed")
+(package-install 'esxml)
+(message "esxml installed")
+(require 'esxml)
 
 (let ((count 1))
   (defun handler (httpcon)
     "Demonstration function"
+    (let ((path (elnode-http-pathinfo httpcon))))
     (setq count (1+ count))
     (elnode-http-start httpcon "200"
                        '("Content-type" . "text/html")
@@ -34,6 +37,7 @@
                      (body
                       (h1 "Hello from EEEMACS.")
                       (br) "We have been visited " ,(prin1-to-string count) " times"
+                      (br) "We are visiting, " path "."
                       (br) "Click " (a (@ (href "/messages")) "here") " for the log."))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
