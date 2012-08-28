@@ -37,7 +37,7 @@
                      (body
                       (h1 "Hello from EEEMACS.")
                       (br) "We have been visited " ,(prin1-to-string count) " times"
-                      (br) "We are visiting, " path "."
+                      (br) "We are visiting, " ,path "."
                       (br) "Click " (a (@ (href "/messages")) "here") " for the log."))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
