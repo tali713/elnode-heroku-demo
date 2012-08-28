@@ -27,18 +27,18 @@
 (let ((count 1))
   (defun handler (httpcon)
     "Demonstration function"
-    (let ((path (elnode-http-pathinfo httpcon))))
-    (setq count (1+ count))
-    (elnode-http-start httpcon "200"
-                       '("Content-type" . "text/html")
-                       `("Server" . ,(concat "GNU Emacs " emacs-version)))
-    (elnode-http-return httpcon
-      (sxml-to-xml `(html
-                     (body
-                      (h1 "Hello from EEEMACS.")
-                      (br) "We have been visited " ,(prin1-to-string count) " times"
-                      (br) "We are visiting, " ,path "."
-                      (br) "Click " (a (@ (href "/messages")) "here") " for the log."))))))
+    (let ((path (elnode-http-pathinfo httpcon)))
+      (setq count (1+ count))
+      (elnode-http-start httpcon "200"
+                         '("Content-type" . "text/html")
+                         `("Server" . ,(concat "GNU Emacs " emacs-version)))
+      (elnode-http-return httpcon
+        (sxml-to-xml `(html
+                       (body
+                        (h1 "Hello from EEEMACS.")
+                        (br) "We have been visited " ,(prin1-to-string count) " times"
+                        (br) "We are visiting, " ,path "."
+                        (br) "Click " (a (@ (href "/messages")) "here") " for the log.")))))))
 
 (elnode-start 'handler :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
