@@ -25,7 +25,7 @@
 (require 'esxml)
 
 (let ((count 1))
-  (defun handler (httpcon)
+  (defun default-page (httpcon)
     "Demonstration function"
     (let ((path (elnode-http-pathinfo httpcon)))
       (setq count (1+ count))
@@ -40,7 +40,26 @@
                         (br) "We are visiting, " ,path "."
                         (br) "Click " (a (@ (href "/messages")) "here") " for the log.")))))))
 
-(elnode-start 'handler :port elnode-init-port :host elnode-init-host)
+(defun log-page (httpcon)
+(elnode-http-start httpcon "200"
+                         '("Content-type" . "text/html")
+                         `("Server" . ,(concat "GNU Emacs " emacs-version)))
+      (elnode-http-return httpcon
+        (sxml-to-xml `(html
+                       (body
+                        (pre
+                         ,(with-current-buffer "*Messages*"
+                            (buffer-substring-no-properties (point-min)
+                                                            (point-max)))))))))
+
+(defun my-server (httpcon)
+  (elnode-dispatcher
+   httpcon
+   '((\"^/messages$\" . #'log-page)
+     ( . view-1))
+   #'default-page))
+
+(elnode-start 'my-server :port elnode-init-port :host elnode-init-host)
 ;;(elnode-init)
 
 (while t
