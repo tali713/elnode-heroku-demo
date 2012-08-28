@@ -55,8 +55,7 @@
 (defun my-server (httpcon)
   (elnode-dispatcher
    httpcon
-   '((\"^/messages$\" . #'log-page)
-     ( . view-1))
+   '((\"^/messages/$\" . #'log-page))
    #'default-page))
 
 (elnode-start 'my-server :port elnode-init-port :host elnode-init-host)
